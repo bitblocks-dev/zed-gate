@@ -11,7 +11,7 @@ use std::fs;
 use std::process::Command;
 use toml::{Table, Value};
 
-const ZED_GDSCRIPT_REPO_DIR: &str = "../..";
+const ZED_GATE_REPO_DIR: &str = "../..";
 const ZED_EXTENSIONS_DIR: &str = "../../../../third-party/zed-extensions";
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -30,16 +30,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::process::exit(1);
     }
 
-    std::env::set_current_dir(ZED_GDSCRIPT_REPO_DIR)?;
+    std::env::set_current_dir(ZED_GATE_REPO_DIR)?;
     if !std::path::Path::new("extension.toml").exists() {
-        eprintln!("Error: extension.toml not found in the zed-gdscript repository.");
+        eprintln!("Error: extension.toml not found in the zed-gate repository.");
         std::process::exit(1);
     }
     let output = Command::new("git")
         .args(["status", "--porcelain"])
         .output()?;
     if !output.stdout.is_empty() {
-        eprintln!("Error: The zed-gdscript git working directory is not clean. Please commit or stash changes before running this script.");
+        eprintln!(
+            "Error: The zed-gate git working directory is not clean. Please commit or stash changes before running this script."
+        );
         std::process::exit(1);
     }
 
@@ -98,30 +100,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     std::env::set_current_dir(ZED_EXTENSIONS_DIR)?;
 
-    let branch_name = format!("update-gdscript-v{}", new_version_str);
+    let branch_name = format!("update-gate-v{}", new_version_str);
     Command::new("git")
         .args(["checkout", "-b", &branch_name])
         .status()?;
 
     let mut zed_extensions_toml: Table = toml::from_str(&fs::read_to_string("extensions.toml")?)?;
-    zed_extensions_toml["gdscript"]["version"] = Value::String(new_version_str.clone());
+    zed_extensions_toml["gate"]["version"] = Value::String(new_version_str.clone());
     fs::write("extensions.toml", toml::to_string(&zed_extensions_toml)?)?;
 
     Command::new("git")
-        .args(["submodule", "update", "--remote", "extensions/gdscript"])
+        .args(["submodule", "update", "--remote", "extensions/gate"])
         .status()?;
 
     Command::new("git")
         .args(["add", "extensions.toml"])
         .status()?;
     Command::new("git")
-        .args(["add", "extensions/gdscript"])
+        .args(["add", "extensions/gate"])
         .status()?;
     Command::new("git")
         .args([
             "commit",
             "-m",
-            &format!("Update gdscript extension to version {}", new_version_str),
+            &format!("Update gate extension to version {}", new_version_str),
         ])
         .status()?;
 

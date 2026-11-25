@@ -1,15 +1,14 @@
 use std::net::Ipv4Addr;
 
 use zed_extension_api::{
-    self as zed,
-    serde_json::{self, Value},
-    DebugAdapterBinary, Result, StartDebuggingRequestArguments,
+    self as zed, DebugAdapterBinary, Result, StartDebuggingRequestArguments,
     StartDebuggingRequestArgumentsRequest, TcpArguments,
+    serde_json::{self, Value},
 };
 
-struct GDScriptExtension;
+struct GateExtension;
 
-impl zed::Extension for GDScriptExtension {
+impl zed::Extension for GateExtension {
     fn new() -> Self {
         Self
     }
@@ -19,7 +18,7 @@ impl zed::Extension for GDScriptExtension {
         _language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let lsp_settings = zed::settings::LspSettings::for_worktree("gdscript", worktree);
+        let lsp_settings = zed::settings::LspSettings::for_worktree("gate", worktree);
         let mut args = None;
         let mut path = None;
         let mut env = None;
@@ -46,7 +45,7 @@ impl zed::Extension for GDScriptExtension {
         Ok(zed::Command {
             command: path
                 .ok_or("nc or ncat must be installed and available on your PATH".to_string())?,
-            args: args.unwrap_or(vec!["127.0.0.1".to_string(), "6005".to_string()]),
+            args: args.unwrap_or(vec!["127.0.0.1".to_string(), "6100".to_string()]),
             env: env.unwrap_or_default().into_iter().collect(),
         })
     }
@@ -72,7 +71,7 @@ impl zed::Extension for GDScriptExtension {
         let port = configuration
             .get("port")
             .and_then(|port| port.as_u64())
-            .unwrap_or(6006) as u16;
+            .unwrap_or(6100) as u16;
 
         Ok(DebugAdapterBinary {
             command: None,
@@ -110,4 +109,4 @@ impl zed::Extension for GDScriptExtension {
     }
 }
 
-zed::register_extension!(GDScriptExtension);
+zed::register_extension!(GateExtension);
