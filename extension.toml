@@ -4,7 +4,7 @@ id = "gate"
 name = "Gate"
 repository = "https://github.com/bitblocks-dev/zed-gate"
 schema_version = 1
-version = "0.9.0"
+version = "0.1.0"
 
 # [debug_adapters.godot]
 

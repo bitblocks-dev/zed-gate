@@ -1,10 +1,10 @@
-# Zed GDScript Extension
+# Zed gate Extension
 
-This extension adds support for [GDScript](https://docs.godotengine.org/en/stable/classes/index.html), the scripting language used in the Godot game engine, to the Zed editor.
+This extension adds support for [GATE](https://github.com/Blade67/GATE), a superset of gdscript, to the Zed editor.
 
 ## Requirements
 
-- Zed Editor.
+- Zed Editor or Gram Editor.
 - Godot Engine (version 3.x or 4.x).
 - The program `nc` or `ncat` is available in your system PATH.
 
@@ -26,11 +26,11 @@ You can install Netcat from your package manager:
 
 Note that the installed program might be called `nc` or `ncat`, depending on your operating system and package manager (short for netcat). The extension will try to find either of them in your system PATH.
 
-### Installing the Zed GDScript Extension
+### Installing the Zed GATE Extension
 
 1. Open Zed.
 2. Go to Extensions.
-3. Search for *GDScript*.
+3. Search for *GATE*.
 4. Click Install.
 
 ### Starting the Godot Language Server
@@ -39,9 +39,9 @@ Unlike other programming languages, Godot's language server is part of the Godot
 
 After opening Godot, in Zed, you can use the command *editor: restart language server* to connect to Godot's language server.
 
-### Opening GDScript files in Zed instead of Godot
+### Opening GATE files in Zed instead of Godot
 
-If you want to open GDScript files in Zed instead of Godot, you need to change Godot editor settings. In the Godot editor, go to *Editor > Editor Settings > Text Editor > External* and enable *Use External Editor*. Set the *Exec Path* to the path of your Zed executable and the *Exec Flags* to `{project} {file}:{line}:{col}`. This will open files and jump to the correct line in Zed when you click on an error or warning in Godot.
+If you want to open GATE files in Zed instead of Godot, you need to change Godot editor settings. In the Godot editor, go to *Editor > Editor Settings > Text Editor > External* and enable *Use External Editor*. Set the *Exec Path* to the path of your Zed executable and the *Exec Flags* to `{project} {file}:{line}:{col}`. This will open files and jump to the correct line in Zed when you click on an error or warning in Godot.
 
 If you have installed Godot and Zed via Flatpak on Linux, use the following parameters:
 
@@ -81,11 +81,11 @@ From there, in Zed, you can use the command `editor: go to declaration` to open 
 
 ## Formatting
 
-Zed provides the ability to format files using an external formatter. There are a few options for GDScript formatting.
+Zed provides the ability to format files using an external formatter. There are a few options for GATE formatting.
 
-### With [GDScript formatter](https://github.com/GDQuest/GDScript-formatter)
+### With [GATE formatter](https://github.com/GDQuest/GATE-formatter)
 
-[GDScript formatter](https://github.com/GDQuest/GDScript-formatter) is a fast code formatter and linter that is built with the same [tree-sitter-gdscript](https://github.com/PrestonKnopp/tree-sitter-gdscript) grammar that this extension uses.
+[GATE formatter](https://github.com/GDQuest/GATE-formatter) is a fast code formatter and linter that is built with the same [tree-sitter-gdscript](https://github.com/PrestonKnopp/tree-sitter-gdscript) grammar that this extension uses.
 
 Install it and make sure that `gdscript-formatter` is available in your system PATH.
 
@@ -94,7 +94,7 @@ Then, add the following configuration to your `settings.json` file:
 ```json
 {
   "languages": {
-    "GDScript": {
+    "GATE": {
       "formatter": {
         "external": {
           "command": "gdscript-formatter",
@@ -106,9 +106,9 @@ Then, add the following configuration to your `settings.json` file:
 }
 ```
 
-### With [GDScript Toolkit](https://github.com/Scony/godot-gdscript-toolkit)
+### With [GATE Toolkit](https://github.com/Scony/godot-gdscript-toolkit)
 
-[GDScript Toolkit](https://github.com/Scony/godot-gdscript-toolkit) is a Python-based formatter and linter for GDScript.
+[GATE Toolkit](https://github.com/Scony/godot-gdscript-toolkit) is a Python-based formatter and linter for GATE.
 
 Install it and make sure that `gdformat` is available in your system PATH.
 
@@ -117,7 +117,7 @@ Then, add the following configuration to your `settings.json` file:
 ```json
 {
   "languages": {
-    "GDScript": {
+    "GATE": {
       "formatter": {
         "external": {
           "command": "gdformat",
@@ -134,7 +134,7 @@ Then, add the following configuration to your `settings.json` file:
 > [!NOTE]
 > At the time of writing this, debugging will not work when using Godot 4.4. It's confirmed to work in Godot 4.3 and 4.5, however.
 
-The extension provides a debug adapter that allows debugging GDScript code. To be able to do this, create `.zed/debug.json` file in the root of your workspace with the following content:
+The extension provides a debug adapter that allows debugging GATE code. To be able to do this, create `.zed/debug.json` file in the root of your workspace with the following content:
 
 ```json
 [
